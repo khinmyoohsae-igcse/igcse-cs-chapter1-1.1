@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 1.1 Number Systems MCQ App</title>
+    <style>
+        :root {
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --success: #16a34a;
+            --success-bg: #dcfce7;
+            --danger: #dc2626;
+            --danger-bg: #fee2e2;
+            --warning: #d97706;
+            --accent: #f59e0b;
+        }
+
+        .dark-theme {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --success: #22c55e;
+            --success-bg: #064e3b;
+            --danger: #ef4444;
+            --danger-bg: #7f1d1d;
+            --warning: #f59e0b;
+            --accent: #fbbf24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        button, select {
+            padding: 0.5rem 0.85rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover, select:hover {
+            border-color: var(--primary);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        main {
+            flex: 1;
+            max-width: 900px;
+            width: 100%;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-box .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-box .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background-color: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .tag {
+            background-color: var(--border-color);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            line-height: 1.5;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .option-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            text-align: left;
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .option-btn:hover {
+            background-color: var(--border-color);
+        }
+
+        .option-prefix {
+            font-weight: 700;
+            margin-right: 0.75rem;
+            min-width: 24px;
+        }
+
+        .option-btn.selected {
+            border-color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.08);
+        }
+
+        .option-btn.correct {
+            border-color: var(--success);
+            background-color: var(--success-bg);
+            color: var(--text-color);
+        }
+
+        .option-btn.incorrect {
+            border-color: var(--danger);
+            background-color: var(--danger-bg);
+            color: var(--text-color);
+        }
+
+        .explanation {
+            margin-top: 1.25rem;
+            padding: 1rem;
+            border-radius: 6px;
+            background-color: var(--bg-color);
+            border-left: 4px solid var(--primary);
+            font-size: 0.95rem;
+            line-height: 1.45;
+            display: none;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+
+        .grid-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .grid-nav-btn {
+            height: 36px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 4px;
+        }
+
+        .grid-nav-btn.answered {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .grid-nav-btn.bookmarked {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>IGCSE Computer Science</h1>
+            <p>1.1 Number Systems Quiz (50 MCQs)</p>
+        </div>
+        <div class="controls">
+            <button id="themeToggle">🌓 Theme</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- SETUP / DASHBOARD SCREEN -->
+        <div id="setupScreen" class="card">
+            <h2 style="margin-bottom: 1rem;">Quiz Configuration</h2>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+                <div>
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Mode</label>
+                    <select id="modeSelect" style="width: 100%;">
+                        <option value="practice">Practice Mode (Instant Feedback & Explanations)</option>
+                        <option value="exam">Exam Mode (Timed, Results at End)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Topic Filter</label>
+                    <select id="topicSelect" style="width: 100%;">
+                        <option value="all">All Topics (50 Questions)</option>
+                        <option value="conversions">Conversions (Denary/Binary/Hex)</option>
+                        <option value="applications">Hexadecimal Applications (MAC & Error Codes)</option>
+                        <option value="addition">Binary Addition & Overflow</option>
+                        <option value="shifts">Logical Binary Shifts</option>
+                        <option value="twos">Two's Complement Notation</option>
+                    </select>
+                </div>
+
+                <div class="toggle-container">
+                    <input type="checkbox" id="shuffleAnswersToggle" checked>
+                    <label for="shuffleAnswersToggle">Shuffle Answer Choices Automatically</label>
+                </div>
+            </div>
+
+            <button id="startBtn" class="btn-primary" style="width: 100%; padding: 0.75rem;">Start Quiz</button>
+        </div>
+
+        <!-- QUIZ INTERFACE SCREEN -->
+        <div id="quizScreen" class="hidden">
+            <div class="dashboard-grid">
+                <div class="stat-box">
+                    <div class="number" id="qCurrent">1 / 50</div>
+                    <div class="label">Progress</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" id="scoreDisplay">0</div>
+                    <div class="label">Current Score</div>
+                </div>
+                <div class="stat-box" id="timerBox">
+                    <div class="number" id="timerDisplay">--:--</div>
+                    <div class="label">Time Remaining</div>
+                </div>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div class="card">
+                <div class="meta-info">
+                    <span class="tag" id="questionCategory">Topic</span>
+                    <button id="bookmarkBtn" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">🔖 Bookmark</button>
+                </div>
+
+                <div class="question-text" id="questionText">Question text goes here?</div>
+
+                <div class="options-list" id="optionsContainer">
+                    <!-- Dynamic Options -->
+                </div>
+
+                <div class="explanation" id="explanationBox">
+                    <strong>Explanation:</strong>
+                    <p id="explanationText"></p>
+                </div>
+
+                <div class="nav-buttons">
+                    <button id="prevBtn">Previous</button>
+                    <button id="nextBtn" class="btn-primary">Next</button>
+                    <button id="submitBtn" class="btn-primary hidden" style="background-color: var(--success);">Submit Exam</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Question Navigator</h3>
+                <div class="grid-nav" id="gridNav"></div>
+            </div>
+        </div>
+
+        <!-- RESULTS SCREEN -->
+        <div id="resultScreen" class="card hidden" style="text-align: center;">
+            <h2>Quiz Completed!</h2>
+            <div style="font-size: 3rem; font-weight: 800; color: var(--primary); margin: 1rem 0;" id="finalScore">0 / 50</div>
+            <p id="percentageDisplay" style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 1.5rem;">0% Accuracy</p>
+            
+            <button id="restartBtn" class="btn-primary" style="padding: 0.75rem 1.5rem;">Return to Setup</button>
+        </div>
+    </main>
+
+    <script>
+        const questionsData = [
+            {
+                id: 1,
+                category: "conversions",
+                topic: "Hardware Rationale",
+                question: "Why do computers process data strictly using the binary number system?",
+                options: [
+                    "Computers operate using transistors and logic gates which have two stable states: ON (1) and OFF (0)",
+                    "Binary numbers require less electronic memory to store than decimal numbers",
+                    "Hexadecimal numbers cannot be processed directly by modern microprocessors",
+                    "Binary math was invented specifically to simplify human-computer interaction"
+                ],
+                correct: 0,
+                explanation: "Computer hardware is built from logic gates and transistors which operate in two distinct electronic states: ON (1) or OFF (0)."
+            },
+            {
+                id: 2,
+                category: "conversions",
+                topic: "Basic Definitions",
+                question: "What is the term 'bit' short for?",
+                options: [
+                    "Binary Digit",
+                    "Base Integration Unit",
+                    "Binary Terminal",
+                    "Byte Information Tool"
+                ],
+                correct: 0,
+                explanation: "'Bit' is a contraction derived from the words Binary digit."
+            },
+            {
+                id: 3,
+                category: "conversions",
+                topic: "Denary to Binary",
+                question: "Convert the denary number 41 into an 8-bit binary number.",
+                options: [
+                    "00101001",
+                    "00101011",
+                    "00010101",
+                    "00110001"
+                ],
+                correct: 0,
+                explanation: "41 = 32 + 8 + 1. In 8-bit binary (128 64 32 16 8 4 2 1), this is 00101001."
+            },
+            {
+                id: 4,
+                category: "conversions",
+                topic: "Denary to Binary",
+                question: "Convert the denary number 100 into 8-bit binary.",
+                options: [
+                    "01100100",
+                    "01010100",
+                    "01101000",
+                    "00110010"
+                ],
+                correct: 0,
+                explanation: "100 = 64 + 32 + 4. Place values: 64(1) + 32(1) + 4(1) = 01100100."
+            },
+            {
+                id: 5,
+                category: "conversions",
+                topic: "Denary to Binary",
+                question: "What is the 8-bit binary representation of the denary number 255?",
+                options: [
+                    "11111111",
+                    "11111110",
+                    "10000000",
+                    "01111111"
+                ],
+                correct: 0,
+                explanation: "255 is the maximum value for an unsigned 8-bit binary integer: 128+64+32+16+8+4+2+1 = 11111111."
+            },
+            {
+                id: 6,
+                category: "conversions",
+                topic: "Binary to Denary",
+                question: "Convert the binary number 01000011 to denary.",
+                options: [
+                    "67",
+                    "65",
+                    "71",
+                    "131"
+                ],
+                correct: 0,
+                explanation: "01000011 = 64 + 2 + 1 = 67."
+            },
+            {
+                id: 7,
+                category: "conversions",
+                topic: "Binary to Denary",
+                question: "Convert the binary number 10000001 to unsigned denary.",
+                options: [
+                    "129",
+                    "128",
+                    "130",
+                    "257"
+                ],
+                correct: 0,
+                explanation: "10000001 = 128 + 1 = 129."
+            },
+            {
+                id: 8,
+                category: "conversions",
+                topic: "Hexadecimal Principles",
+                question: "What base does the hexadecimal number system use, and what characters represent values 10 to 15?",
+                options: [
+                    "Base-16; letters A to F",
+                    "Base-16; letters A to G",
+                    "Base-12; letters A to E",
+                    "Base-8; digits 0 to 7"
+                ],
+                correct: 0,
+                explanation: "Hexadecimal is a Base-16 system using digits 0–9 and letters A–F (where A=10, B=11, C=12, D=13, E=14, F=15)."
+            },
+            {
+                id: 9,
+                category: "conversions",
+                topic: "Hexadecimal Rationale",
+                question: "Why do computer scientists frequently use Hexadecimal notation instead of Binary?",
+                options: [
+                    "Hex representations are shorter and easier for humans to read, reducing transcription errors",
+                    "Computers execute hexadecimal operations much faster than binary operations",
+                    "Hexadecimal uses less physical memory on hard disks than binary",
+                    "Hexadecimal allows storage of negative numbers without sign bits"
+                ],
+                correct: 0,
+                explanation: "Hexadecimal provides a human-friendly representation of binary values (1 hex digit = 4 binary bits), making long values easier to read and reducing errors."
+            },
+            {
+                id: 10,
+                category: "conversions",
+                topic: "Hex to Binary",
+                question: "Convert hexadecimal 4A to 8-bit binary.",
+                options: [
+                    "01001010",
+                    "01001011",
+                    "01011010",
+                    "00101010"
+                ],
+                correct: 0,
+                explanation: "4 = 0100, A (10) = 1010. Combining nibbles gives 01001010."
+            },
+            {
+                id: 11,
+                category: "conversions",
+                topic: "Hex to Binary",
+                question: "Convert hexadecimal FF to binary.",
+                options: [
+                    "11111111",
+                    "11110000",
+                    "10101010",
+                    "01111111"
+                ],
+                correct: 0,
+                explanation: "F = 15 = 1111. Therefore, FF = 11111111."
+            },
+            {
+                id: 12,
+                category: "conversions",
+                topic: "Binary to Hex",
+                question: "Convert binary 11011100 to hexadecimal.",
+                options: [
+                    "DC",
+                    "CD",
+                    "DB",
+                    "EC"
+                ],
+                correct: 0,
+                explanation: "Split into 4-bit nibbles: 1101 = 13 (D), 1100 = 12 (C). Result: DC."
+            },
+            {
+                id: 13,
+                category: "conversions",
+                topic: "Denary to Hex",
+                question: "Convert denary 200 to hexadecimal.",
+                options: [
+                    "C8",
+                    "B8",
+                    "D8",
+                    "C7"
+                ],
+                correct: 0,
+                explanation: "200 ÷ 16 = 12 remainder 8. 12 in hex is C. So 200 = C8."
+            },
+            {
+                id: 14,
+                category: "conversions",
+                topic: "Hex to Denary",
+                question: "Convert hexadecimal 1A to denary.",
+                options: [
+                    "26",
+                    "16",
+                    "24",
+                    "30"
+                ],
+                correct: 0,
+                explanation: "1A = (1 × 16) + (10 × 1) = 16 + 10 = 26."
+            },
+            {
+                id: 15,
+                category: "applications",
+                topic: "MAC Addresses",
+                question: "What format does a standard Media Access Control (MAC) address take?",
+                options: [
+                    "NN-NN-NN-DD-DD-DD (where NN is manufacturer code, DD is device code)",
+                    "DD-DD-DD-NN-NN-NN (where DD is device code, NN is domain server code)",
+                    "IP-IP-IP-MAC-MAC-MAC (where IP is network address)",
+                    "XX-XX-XX-XX (where XX represents 32-bit binary chunks)"
+                ],
+                correct: 0,
+                explanation: "A MAC address is a 48-bit hex address formatted as NN-NN-NN-DD-DD-DD; NN-NN-NN is manufacturer code, DD-DD-DD is device code."
+            },
+            {
+                id: 16,
+                category: "applications",
+                topic: "MAC Addresses",
+                question: "What is the primary purpose of a Media Access Control (MAC) address?",
+                options: [
+                    "To uniquely identify a physical device attached to a network hardware interface",
+                    "To locate a website server dynamically across the global internet",
+                    "To encrypt standard web pages being transmitted via HTTPS",
+                    "To assign dynamic internet protocol routing paths to client routers"
+                ],
+                correct: 0,
+                explanation: "MAC addresses uniquely identify physical network interface cards (NICs) in devices."
+            },
+            {
+                id: 17,
+                category: "applications",
+                topic: "Error Codes",
+                question: "Why are software error messages and memory dumps routinely displayed in hexadecimal?",
+                options: [
+                    "Hexadecimal displays complex binary values in a manageable, human-readable format",
+                    "Operating systems store error files natively only in hexadecimal base",
+                    "Hexadecimal prevents unauthorized programmers from deciphering memory contents",
+                    "Decimal numbers cannot represent modern 64-bit memory addresses"
+                ],
+                correct: 0,
+                explanation: "Hexadecimal provides a condensed presentation of memory addresses and error flags, making reading memory dumps easier."
+            },
+            {
+                id: 18,
+                category: "applications",
+                topic: "HTML Color Codes",
+                question: "In HTML color code #FF0000, what color is represented and what do the digits stand for?",
+                options: [
+                    "Pure Red; FF is maximum intensity for Red, 00 for Green and Blue",
+                    "Pure Blue; FF represents maximum Blue intensity",
+                    "Pure Green; FF represents Green intensity",
+                    "White; FFFF represents maximum overall light"
+                ],
+                correct: 0,
+                explanation: "HTML colors use 6 hex digits: #RRGGBB. #FF0000 represents Red=255 (max), Green=0, Blue=0."
+            },
+            {
+                id: 19,
+                category: "applications",
+                topic: "HTML Color Codes",
+                question: "How many total distinct color combinations can be represented by 6-digit HTML hexadecimal color codes?",
+                options: [
+                    "16,777,216 (256 × 256 × 256)",
+                    "65,536 (256 × 256)",
+                    "1,048,576 (1024 × 1024)",
+                    "4,294,967,296 (2^32)"
+                ],
+                correct: 0,
+                explanation: "Each RGB component has 256 possible values (00 to FF). 256 × 256 × 256 = 16,777,216 total colors."
+            },
+            {
+                id: 20,
+                category: "applications",
+                topic: "IPv6 Addresses",
+                question: "Which feature distinguishes IPv6 address notation from IPv4 addressing?",
+                options: [
+                    "IPv6 uses 8 groups of hexadecimal digits separated by colons (:)",
+                    "IPv6 uses 4 groups of denary digits separated by slashes (/)",
+                    "IPv6 uses 6 binary bytes separated by hyphens (-)",
+                    "IPv6 uses 32-bit binary notation separated by dots (.)"
+                ],
+                correct: 0,
+                explanation: "IPv6 uses hexadecimal notation separated by colons (e.g., a8fb:7a88:fff0:0fff:3d21:2085:66fb:f0fa)."
+            },
+            {
+                id: 21,
+                category: "addition",
+                topic: "Binary Addition Rules",
+                question: "What is the result of binary addition: 1 + 1 + 1?",
+                options: [
+                    "1 with a carry of 1 (binary 11)",
+                    "0 with a carry of 1 (binary 10)",
+                    "1 with a carry of 0 (binary 01)",
+                    "0 with a carry of 0 (binary 00)"
+                ],
+                correct: 0,
+                explanation: "1 + 1 + 1 = denary 3, which in binary is 11 (write down 1, carry 1)."
+            },
+            {
+                id: 22,
+                category: "addition",
+                topic: "Binary Addition Rules",
+                question: "What is the result of binary addition: 1 + 1?",
+                options: [
+                    "0 with a carry of 1 (binary 10)",
+                    "1 with a carry of 0 (binary 01)",
+                    "1 with a carry of 1 (binary 11)",
+                    "2 with a carry of 0"
+                ],
+                correct: 0,
+                explanation: "1 + 1 = denary 2, which in binary is 10 (write down 0, carry 1)."
+            },
+            {
+                id: 23,
+                category: "addition",
+                topic: "Binary Addition Calculation",
+                question: "Add the 8-bit binary numbers: 00101100 + 00010101.",
+                options: [
+                    "01000001",
+                    "01000011",
+                    "00111001",
+                    "01010001"
+                ],
+                correct: 0,
+                explanation: "00101100 (44) + 00010101 (21) = 01000001 (65)."
+            },
+            {
+                id: 24,
+                category: "addition",
+                topic: "Binary Addition Calculation",
+                question: "Add binary numbers: 01100100 + 00110010.",
+                options: [
+                    "10010110",
+                    "10010100",
+                    "10000110",
+                    "01110110"
+                ],
+                correct: 0,
+                explanation: "01100100 (100) + 00110010 (50) = 10010110 (150)."
+            },
+            {
+                id: 25,
+                category: "addition",
+                topic: "Overflow Condition",
+                question: "When does an OVERFLOW error occur in 8-bit binary arithmetic?",
+                options: [
+                    "When the sum of two positive numbers exceeds 255, requiring a 9th bit",
+                    "When adding a positive number to a negative number in two's complement",
+                    "Whenever the result of binary addition contains an odd number of 1s",
+                    "When a logical right shift removes bits from the rightmost register"
+                ],
+                correct: 0,
+                explanation: "Overflow occurs when an arithmetic operation produces a result that exceeds the maximum capacity of the register (e.g., >255 in an unsigned 8-bit register)."
+            },
+            {
+                id: 26,
+                category: "addition",
+                topic: "Overflow Identification",
+                question: "Which of the following binary additions will result in an overflow error in an 8-bit register?",
+                options: [
+                    "11001000 + 01000000",
+                    "00110000 + 00110000",
+                    "01000000 + 00111111",
+                    "00001111 + 00000001"
+                ],
+                correct: 0,
+                explanation: "11001000 (200) + 01000000 (64) = 264. Since 264 > 255, it requires a 9th bit, causing overflow."
+            },
+            {
+                id: 27,
+                category: "shifts",
+                topic: "Logical Left Shift",
+                question: "What is the mathematical effect of applying a Logical Left Shift by 1 place to a binary integer?",
+                options: [
+                    "Multiplies the number by 2",
+                    "Divides the number by 2",
+                    "Multiplies the number by 10",
+                    "Adds 2 to the number"
+                ],
+                correct: 0,
+                explanation: "Shifting bits one position to the left doubles the binary number's value (multiplies by 2)."
+            },
+            {
+                id: 28,
+                category: "shifts",
+                topic: "Logical Left Shift",
+                question: "What is the mathematical effect of applying a Logical Left Shift by 3 places?",
+                options: [
+                    "Multiplies the number by 8 (2^3)",
+                    "Multiplies the number by 6",
+                    "Multiplies the number by 3",
+                    "Divides the number by 8"
+                ],
+                correct: 0,
+                explanation: "Each left shift position multiplies by 2. Shifting 3 places multiplies by 2^3 = 8."
+            },
+            {
+                id: 29,
+                category: "shifts",
+                topic: "Logical Right Shift",
+                question: "What is the mathematical effect of applying a Logical Right Shift by 2 places to a binary integer?",
+                options: [
+                    "Divides the number by 4 (2^2)",
+                    "Divides the number by 2",
+                    "Multiplies the number by 4",
+                    "Subtracts 4 from the number"
+                ],
+                correct: 0,
+                explanation: "Shifting bits right by 2 positions performs integer division by 2^2 = 4."
+            },
+            {
+                id: 30,
+                category: "shifts",
+                topic: "Logical Shift Calculation",
+                question: "Perform a Logical Left Shift of 2 places on binary 00001101 (denary 13). What is the result?",
+                options: [
+                    "00110100 (denary 52)",
+                    "00011010 (denary 26)",
+                    "00000011 (denary 3)",
+                    "01101000 (denary 104)"
+                ],
+                correct: 0,
+                explanation: "00001101 shifted left 2 places becomes 00110100. 13 × 4 = 52."
+            },
+            {
+                id: 31,
+                category: "shifts",
+                topic: "Logical Shift Calculation",
+                question: "Perform a Logical Right Shift of 1 place on binary 00110100 (denary 52). What is the result?",
+                options: [
+                    "00011010 (denary 26)",
+                    "00110100 (denary 52)",
+                    "01101000 (denary 104)",
+                    "00001101 (denary 13)"
+                ],
+                correct: 0,
+                explanation: "00110100 shifted right 1 place becomes 00011010. 52 ÷ 2 = 26."
+            },
+            {
+                id: 32,
+                category: "shifts",
+                topic: "Shift Loss of Precision",
+                question: "What happens when an odd binary number (e.g., 00000101 = 5) is shifted logically to the right by 1 place?",
+                options: [
+                    "The rightmost bit (1) is lost, resulting in 00000010 (2), causing a loss of precision",
+                    "The number is rounded up automatically to 3",
+                    "An overflow error flag is immediately triggered by the CPU",
+                    "The bit wraps around to become the Most Significant Bit (MSB)"
+                ],
+                correct: 0,
+                explanation: "Logical right shifts drop discarded bits. 00000101 shifted right 1 place becomes 00000010 (denary 2), dropping fractional parts."
+            },
+            {
+                id: 33,
+                category: "twos",
+                topic: "Two's Complement Place Values",
+                question: "In an 8-bit Two's Complement binary number, what is the value of the most significant bit (leftmost bit)?",
+                options: [
+                    "-128",
+                    "+128",
+                    "-256",
+                    "-1"
+                ],
+                correct: 0,
+                explanation: "In 8-bit Two's Complement, place values are: -128, 64, 32, 16, 8, 4, 2, 1. The MSB represents -128."
+            },
+            {
+                id: 34,
+                category: "twos",
+                topic: "Two's Complement Range",
+                question: "What is the valid range of integers that can be stored in an 8-bit Two's Complement register?",
+                options: [
+                    "-128 to +127",
+                    "-127 to +128",
+                    "0 to 255",
+                    "-255 to +255"
+                ],
+                correct: 0,
+                explanation: "8-bit Two's Complement can represent values from -128 (10000000) up to +127 (01111111)."
+            },
+            {
+                id: 35,
+                category: "twos",
+                topic: "Denary to Two's Complement",
+                question: "Convert the negative denary integer -18 into 8-bit Two's Complement binary.",
+                options: [
+                    "11101110",
+                    "11101100",
+                    "10010010",
+                    "11110010"
+                ],
+                correct: 0,
+                explanation: "Method: +18 = 00010010. Invert bits -> 11101101. Add 1 -> 11101110. (Or: -128 + 64 + 32 + 8 + 4 = -18)."
+            },
+            {
+                id: 36,
+                category: "twos",
+                topic: "Denary to Two's Complement",
+                question: "Convert the negative denary integer -1 into 8-bit Two's Complement binary.",
+                options: [
+                    "11111111",
+                    "10000001",
+                    "10000000",
+                    "11111110"
+                ],
+                correct: 0,
+                explanation: "-128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 = -1. Thus -1 is represented as 11111111."
+            },
+            {
+                id: 37,
+                category: "twos",
+                topic: "Denary to Two's Complement",
+                question: "Convert negative denary integer -128 into 8-bit Two's Complement binary.",
+                options: [
+                    "10000000",
+                    "11111111",
+                    "10000001",
+                    "01111111"
+                ],
+                correct: 0,
+                explanation: "-128 is represented directly by setting only the MSB (-128) bit to 1: 10000000."
+            },
+            {
+                id: 38,
+                category: "twos",
+                topic: "Two's Complement to Denary",
+                question: "Convert Two's Complement binary 11001101 to denary.",
+                options: [
+                    "-51",
+                    "-50",
+                    "-75",
+                    "-205"
+                ],
+                correct: 0,
+                explanation: "Place values: -128(1) + 64(1) + 8(1) + 4(1) + 1(1) = -128 + 64 + 8 + 4 + 1 = -51."
+            },
+            {
+                id: 39,
+                category: "twos",
+                topic: "Two's Complement to Denary",
+                question: "Convert Two's Complement binary 10111110 to denary.",
+                options: [
+                    "-66",
+                    "-65",
+                    "-67",
+                    "-190"
+                ],
+                correct: 0,
+                explanation: "-128 + 32 + 16 + 8 + 4 + 2 = -66."
+            },
+            {
+                id: 40,
+                category: "twos",
+                topic: "Two's Complement to Denary",
+                question: "Convert Two's Complement binary 11111101 to denary.",
+                options: [
+                    "-3",
+                    "-2",
+                    "-5",
+                    "-253"
+                ],
+                correct: 0,
+                explanation: "-128 + 64 + 32 + 16 + 8 + 4 + 1 = -3."
+            },
+            {
+                id: 41,
+                category: "conversions",
+                topic: "Denary to Binary",
+                question: "Convert denary 189 to 8-bit binary.",
+                options: [
+                    "10111101",
+                    "10111111",
+                    "11001101",
+                    "10110101"
+                ],
+                correct: 0,
+                explanation: "189 = 128 + 32 + 16 + 8 + 4 + 1 -> 10111101."
+            },
+            {
+                id: 42,
+                category: "conversions",
+                topic: "Hex to Denary",
+                question: "Convert hexadecimal 9F to denary.",
+                options: [
+                    "159",
+                    "150",
+                    "149",
+                    "160"
+                ],
+                correct: 0,
+                explanation: "9F = (9 × 16) + 15 = 144 + 15 = 159."
+            },
+            {
+                id: 43,
+                category: "conversions",
+                topic: "Denary to Hex",
+                question: "Convert denary 254 to hexadecimal.",
+                options: [
+                    "FE",
+                    "FD",
+                    "EF",
+                    "FF"
+                ],
+                correct: 0,
+                explanation: "254 ÷ 16 = 15 remainder 14. 15 = F, 14 = E. Result: FE."
+            },
+            {
+                id: 44,
+                category: "addition",
+                topic: "Binary Addition",
+                question: "Add binary 01010101 + 00101010.",
+                options: [
+                    "01111111",
+                    "10000000",
+                    "01111110",
+                    "01101111"
+                ],
+                correct: 0,
+                explanation: "01010101 (85) + 00101010 (42) = 01111111 (127)."
+            },
+            {
+                id: 45,
+                category: "shifts",
+                topic: "Logical Shift Calculation",
+                question: "Logical Right Shift of 3 places on 01000000 (denary 64) produces what value?",
+                options: [
+                    "00001000 (denary 8)",
+                    "00010000 (denary 16)",
+                    "00000100 (denary 4)",
+                    "00000010 (denary 2)"
+                ],
+                correct: 0,
+                explanation: "64 ÷ (2^3) = 64 ÷ 8 = 8 -> 00001000."
+            },
+            {
+                id: 46,
+                category: "twos",
+                topic: "Denary to Two's Complement",
+                question: "Convert denary -100 to 8-bit Two's Complement binary.",
+                options: [
+                    "10011100",
+                    "10011010",
+                    "11100100",
+                    "10011101"
+                ],
+                correct: 0,
+                explanation: "+100 = 01100100. Invert -> 10011011. Add 1 -> 10011100 (-128 + 16 + 8 + 4 = -100)."
+            },
+            {
+                id: 47,
+                category: "conversions",
+                topic: "Base Comparison",
+                question: "Which binary number is equivalent to hexadecimal 3E?",
+                options: [
+                    "00111110",
+                    "00111101",
+                    "00111111",
+                    "01111100"
+                ],
+                correct: 0,
+                explanation: "3 = 0011, E = 14 = 1110. Combined: 00111110."
+            },
+            {
+                id: 48,
+                category: "applications",
+                topic: "Hex Applications",
+                question: "Which of the following is NOT a standard use of hexadecimal representation?",
+                options: [
+                    "Direct mathematical execution by hardware control units",
+                    "Media Access Control (MAC) addresses",
+                    "HTML color definition codes",
+                    "System memory dumps and error codes"
+                ],
+                correct: 0,
+                explanation: "Control units and CPUs execute logic strictly in binary; hex is used for human presentation."
+            },
+            {
+                id: 49,
+                category: "twos",
+                topic: "Two's Complement Identification",
+                question: "How can you immediately tell if an 8-bit Two's Complement binary number is negative?",
+                options: [
+                    "The Most Significant Bit (leftmost bit) is 1",
+                    "The Least Significant Bit (rightmost bit) is 1",
+                    "The number contains an odd total number of 1s",
+                    "The total sum of bits equals 255"
+                ],
+                correct: 0,
+                explanation: "If the MSB is 1, its value is -128, making the overall represented integer negative."
+            },
+            {
+                id: 50,
+                category: "addition",
+                topic: "Overflow Check",
+                question: "What is the result of 11111111 + 00000001 in an 8-bit unsigned binary system?",
+                options: [
+                    "00000000 with an Overflow carry flag set",
+                    "100000000 with no error",
+                    "11111111 with error bit",
+                    "00000001 with wrap around"
+                ],
+                correct: 0,
+                explanation: "255 + 1 = 256. In an 8-bit register, 256 wraps around to 00000000 and sets the Overflow carry bit."
+            }
+        ];
+
+        // State variables
+        let currentQuestions = [];
+        let currentIndex = 0;
+        let userAnswers = {};
+        let bookmarked = {};
+        let quizMode = 'practice';
+        let timerInterval = null;
+        let timeRemaining = 45 * 60; // 45 mins in seconds
+
+        // DOM elements
+        const setupScreen = document.getElementById('setupScreen');
+        const quizScreen = document.getElementById('quizScreen');
+        const resultScreen = document.getElementById('resultScreen');
+        const themeToggle = document.getElementById('themeToggle');
+        
+        const modeSelect = document.getElementById('modeSelect');
+        const topicSelect = document.getElementById('topicSelect');
+        const shuffleAnswersToggle = document.getElementById('shuffleAnswersToggle');
+        const startBtn = document.getElementById('startBtn');
+
+        const qCurrent = document.getElementById('qCurrent');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const progressBar = document.getElementById('progressBar');
+        const questionCategory = document.getElementById('questionCategory');
+        const bookmarkBtn = document.getElementById('bookmarkBtn');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const explanationBox = document.getElementById('explanationBox');
+        const explanationText = document.getElementById('explanationText');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const gridNav = document.getElementById('gridNav');
+
+        // Theme Toggle Logic
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+        });
+
+        // Initialize / Filter Questions
+        startBtn.addEventListener('click', () => {
+            quizMode = modeSelect.value;
+            const selectedTopic = topicSelect.value;
+            
+            if (selectedTopic === 'all') {
+                currentQuestions = JSON.parse(JSON.stringify(questionsData));
+            } else {
+                currentQuestions = JSON.parse(JSON.stringify(questionsData.filter(q => q.category === selectedTopic)));
+            }
+
+            // Prepare choices
+            currentQuestions.forEach(q => {
+                let optionsObj = q.options.map((opt, idx) => ({ text: opt, originalIndex: idx }));
+                if (shuffleAnswersToggle.checked) {
+                    for (let i = optionsObj.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [optionsObj[i], optionsObj[j]] = [optionsObj[j], optionsObj[i]];
+                    }
+                }
+                q.shuffledOptions = optionsObj;
+            });
+
+            currentIndex = 0;
+            userAnswers = {};
+            bookmarked = {};
+
+            setupScreen.classList.add('hidden');
+            resultScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+
+            if (quizMode === 'exam') {
+                document.getElementById('timerBox').classList.remove('hidden');
+                timeRemaining = 45 * 60;
+                startTimer();
+                submitBtn.classList.remove('hidden');
+            } else {
+                document.getElementById('timerBox').classList.add('hidden');
+                submitBtn.classList.add('hidden');
+            }
+
+            renderGridNav();
+            renderQuestion();
+        });
+
+        function renderGridNav() {
+            gridNav.innerHTML = '';
+            currentQuestions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'grid-nav-btn';
+                btn.innerText = idx + 1;
+                
+                if (userAnswers[idx] !== undefined) btn.classList.add('answered');
+                if (bookmarked[idx]) btn.classList.add('bookmarked');
+                
+                btn.addEventListener('click', () => {
+                    currentIndex = idx;
+                    renderQuestion();
+                });
+                gridNav.appendChild(btn);
+            });
+        }
+
+        function renderQuestion() {
+            const q = currentQuestions[currentIndex];
+            qCurrent.innerText = `${currentIndex + 1} / ${currentQuestions.length}`;
+            questionCategory.innerText = q.topic.toUpperCase();
+            questionText.innerText = `${currentIndex + 1}. ${q.question}`;
+            
+            progressBar.style.width = `${((currentIndex + 1) / currentQuestions.length) * 100}%`;
+
+            bookmarkBtn.innerText = bookmarked[currentIndex] ? "🔖 Bookmarked" : "🔖 Bookmark";
+            bookmarkBtn.style.color = bookmarked[currentIndex] ? "var(--accent)" : "inherit";
+
+            optionsContainer.innerHTML = '';
+            explanationBox.style.display = 'none';
+
+            const letters = ['A', 'B', 'C', 'D'];
+            
+            q.shuffledOptions.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                
+                const prefix = document.createElement('span');
+                prefix.className = 'option-prefix';
+                prefix.innerText = `${letters[idx]}.`;
+                
+                const text = document.createElement('span');
+                text.innerText = opt.text;
+
+                btn.appendChild(prefix);
+                btn.appendChild(text);
+
+                // Option State in Practice Mode
+                if (quizMode === 'practice' && userAnswers[currentIndex] !== undefined) {
+                    if (opt.originalIndex === q.correct) {
+                        btn.classList.add('correct');
+                    }
+                    if (userAnswers[currentIndex] === idx && opt.originalIndex !== q.correct) {
+                        btn.classList.add('incorrect');
+                    }
+                } else if (userAnswers[currentIndex] === idx) {
+                    btn.classList.add('selected');
+                }
+
+                btn.addEventListener('click', () => selectAnswer(idx));
+                optionsContainer.appendChild(btn);
+            });
+
+            if (quizMode === 'practice' && userAnswers[currentIndex] !== undefined) {
+                explanationText.innerText = q.explanation;
+                explanationBox.style.display = 'block';
+            }
+
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.innerText = currentIndex === currentQuestions.length - 1 ? "Finish" : "Next";
+            updateScoreDisplay();
+        }
+
+        function selectAnswer(optionIndex) {
+            userAnswers[currentIndex] = optionIndex;
+            renderGridNav();
+            renderQuestion();
+        }
+
+        bookmarkBtn.addEventListener('click', () => {
+            bookmarked[currentIndex] = !bookmarked[currentIndex];
+            renderGridNav();
+            renderQuestion();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < currentQuestions.length - 1) {
+                currentIndex++;
+                renderQuestion();
+            } else {
+                finishQuiz();
+            }
+        });
+
+        submitBtn.addEventListener('click', () => {
+            if (confirm("Are you sure you want to submit your exam?")) {
+                finishQuiz();
+            }
+        });
+
+        function updateScoreDisplay() {
+            let correctCount = 0;
+            Object.keys(userAnswers).forEach(idx => {
+                const q = currentQuestions[idx];
+                const selectedOptIndex = userAnswers[idx];
+                if (selectedOptIndex !== undefined) {
+                    const origIndex = q.shuffledOptions[selectedOptIndex].originalIndex;
+                    if (origIndex === q.correct) correctCount++;
+                }
+            });
+            scoreDisplay.innerText = correctCount;
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                const mins = Math.floor(timeRemaining / 60);
+                const secs = timeRemaining % 60;
+                timerDisplay.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Time's up! Submitting your exam.");
+                    finishQuiz();
+                }
+            }, 1000);
+        }
+
+        function finishQuiz() {
+            clearInterval(timerInterval);
+            let score = 0;
+            currentQuestions.forEach((q, idx) => {
+                const selectedOptIndex = userAnswers[idx];
+                if (selectedOptIndex !== undefined) {
+                    if (q.shuffledOptions[selectedOptIndex].originalIndex === q.correct) {
+                        score++;
+                    }
+                }
+            });
+
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+
+            document.getElementById('finalScore').innerText = `${score} / ${currentQuestions.length}`;
+            const percentage = Math.round((score / currentQuestions.length) * 100);
+            document.getElementById('percentageDisplay').innerText = `${percentage}% Score`;
+        }
+
+        document.getElementById('restartBtn').addEventListener('click', () => {
+            resultScreen.classList.add('hidden');
+            setupScreen.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
